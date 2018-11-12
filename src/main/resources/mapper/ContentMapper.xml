@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.shark.mapper.ContentDao">
+
+	<select id="get" resultType="com.zx.shark.model.ContentDO">
+		select `cid`,`title`,`created`,`modified`,`content`,`tags`,`categories`,`comments_num`,`status`,`author`,`likes_count`,`gtm_create`,`gtm_modified` from blog_content where cid = #{value}
+	</select>
+
+	<select id="list" resultType="com.zx.shark.model.ContentDO">
+		select `cid`,`title`,`created`,`modified`,`content`,`tags`,`categories`,`comments_num`,`status`,`likes_count`,`author`,`gtm_create`,`gtm_modified`
+		from blog_content
+        <where>
+		  		  <if test="cid != null and cid != ''"> and cid = #{cid} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="created != null and created != ''"> and created = #{created} </if>
+		  		  <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+			      <if test="type != null and type != ''"> and type = #{type} </if>
+			      <if test="content != null and content != ''"> and content = #{content} </if>
+		  		  <if test="tags != null and tags != ''"> and tags = #{tags} </if>
+		  		  <if test="categories != null and categories != ''"> and categories = #{categories} </if>
+		  		  <if test="commentsNum != null and commentsNum != ''"> and comments_num = #{comments_num} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="author != null and author != ''"> and author = #{author} </if>
+			      <if test="likes_count != null and likes_count != ''"> and likes_count = #{likes_count} </if>
+		  		  <if test="gtm_create != null and gtm_create != ''"> and gtm_create = #{gtm_create} </if>
+		  		  <if test="gtm_modified != null and gtm_modified != ''"> and gtm_modified = #{gtm_modified} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by cid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit ${offset}, ${limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from blog_content
+		 <where>  
+		  		  <if test="cid != null and cid != ''"> and cid = #{cid} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="created != null and created != ''"> and created = #{created} </if>
+		  		  <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+				  <if test="type != null and type != ''"> and type = #{type} </if>
+				  <if test="content != null and content != ''"> and content = #{content} </if>
+		  		  <if test="tags != null and tags != ''"> and tags = #{tags} </if>
+		  		  <if test="categories != null and categories != ''"> and categories = #{categories} </if>
+		  		  <if test="commentsNum != null and commentsNum != ''"> and comments_num = #{comments_num} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="author != null and author != ''"> and author = #{author} </if>
+			      <if test="likes_count != null and likes_count != ''"> and likes_count = #{likes_count} </if>
+		  		  <if test="gtm_create != null and gtm_create != ''"> and gtm_create = #{gtm_create} </if>
+		  		  <if test="gtm_modified != null and gtm_modified != ''"> and gtm_modified = #{gtm_modified} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.zx.shark.model.ContentDO" useGeneratedKeys="true" keyProperty="cid">
+		insert into blog_content
+		(
+			`title`, 
+			`created`,
+			`modified`, 
+			`content`, 
+			`tags`,
+			`categories`,
+		<if test="comments_num != null">`comments_num`,</if>
+		<if test="status != null">`status`,</if>
+			`author`, 
+			`gtm_create`, 
+			`gtm_modified`
+		)
+		values
+		(
+			#{title}, 
+			#{created},
+			#{modified}, 
+			#{content}, 
+			#{tags},
+			#{categories},
+		<if test="comments_num != null">	#{comments_num},</if>
+		<if test="status != null">#{status},</if>
+			#{author}, 
+			#{gtm_create},
+			#{gtm_modified}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.zx.shark.model.ContentDO">
+		update blog_content 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="created != null">`created` = #{created}, </if>
+			<if test="modified != null">`modified` = #{modified}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="tags != null">`tags` = #{tags}, </if>
+			<if test="categories != null">`categories` = #{categories}, </if>
+			<if test="comments_num != null">`comments_num` = #{comments_num}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="author != null">`author` = #{author}, </if>
+			<if test="likes_count != null and likes_count != ''"> and likes_count = #{likes_count} </if>
+			<if test="gtm_create != null">`gtm_create` = #{gtm_create}, </if>
+			<if test="gtm_modified != null">`gtm_modified` = #{gtm_modified}</if>
+		</set>
+		where cid = #{cid}
+	</update>
+	
+	<delete id="remove">
+		delete from blog_content where cid = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from blog_content where cid in 
+		<foreach item="cid" collection="array" open="(" separator="," close=")">
+			#{cid}
+		</foreach>
+	</delete>
+
+</mapper>

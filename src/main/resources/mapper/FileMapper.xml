@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zx.shark.doFile.mapper.FileMapper">
+	<resultMap id="BaseResultMap" type="com.zx.shark.doFile.model.MyFile" >
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="file_type" property="fileType" jdbcType="VARCHAR" />
+		<result column="tag" property="tag" jdbcType="INTEGER" />
+		<result column="size" property="size" jdbcType="BIGINT" />
+		<result column="file_path" property="filePath" jdbcType="VARCHAR" />
+		<result column="need_pass" property="needPass" jdbcType="INTEGER" />
+		<result column="pass" property="pass" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+	<select id="find" resultMap="BaseResultMap">
+		select id, parent_id, username, file_name, file_type, tag, size, file_path, need_pass, pass, create_time
+		from file
+        <where>
+			<if test="id != null and id != ''"> id = #{id} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+			<if test="username != null and username != ''"> and username = #{username} </if>
+			<if test="fileName != null and fileName != ''"> and file_name = #{fileName} </if>
+			<if test="fileType != null and fileType != ''"> and file_type = #{fileType} </if>
+			<if test="tag != null and tag != ''"> and tag = #{tag} </if>
+			<if test="size != null and size != ''"> and size = #{size} </if>
+			<if test="filePath != null and filePath != ''"> and file_path = #{filePath} </if>
+			<if test="needPass != null and needPass != ''"> and need_pass = #{needPass} </if>
+			<if test="pass != null and pass != ''"> and pass = #{pass} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		</where>
+        <!--<choose>-->
+            <!--<when test="sort != null and sort.trim() != ''">-->
+                <!--order by ${sort} ${order}-->
+            <!--</when>-->
+			<!--<otherwise>-->
+                <!--order by cid desc-->
+			<!--</otherwise>-->
+        <!--</choose>-->
+		<!--<if test="offset != null and limit != null">-->
+			<!--limit ${offset}, ${limit}-->
+		<!--</if>-->
+	</select>
+
+	<insert id="insert" parameterType="com.zx.shark.doFile.model.MyFile" useGeneratedKeys="true" keyProperty="id">
+		insert into file
+		(
+		`id`,
+		`parent_id`,
+		`username`,
+		`file_name`,
+		`file_type`,
+		`tag`,
+		`size`,
+		<if test="filePath != null and filePath != ''">`file_path`,</if>
+		`need_pass`,
+		`pass`,
+		`create_time`
+		)
+		values
+		(
+		#{id},
+		#{parentId},
+		#{username},
+		#{fileName},
+		#{fileType},
+		#{tag},
+		#{size},
+		<if test="filePath != null and filePath != ''">#{filePath},</if>
+		#{needPass},
+		#{pass},
+		#{createTime}
+		)
+	</insert>
+	 
+
+	<delete id="delete">
+		delete from file where id = #{value}
+	</delete>
+
+
+</mapper>

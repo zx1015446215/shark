@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--书籍的存入表单-->
+<div class="login-form" align="center">
+    <div class="login-header">
+        <a href="javascript:;"title="关闭" onclick="closebookform()" class="login-close close">×</a>
+        <h3 class="loginlabel">书籍信息注册</h3>
+    </div>
+    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <table id="addbook">
+            <p><label>用户名:</label>
+                <input type="text" id="name" class="a"></p>
+            <p><label>邮箱:</label>
+                <input type="text" id="author" class="a"></p>
+            <p> <label>出版社:</label>
+                <input type="text" id="company" class="a"></p>
+            <p><label>出版时间:</label>
+                <input type="startDate" id="publishtime" class="a"></p>
+            <p><label>存入数量:</label>
+                <input type="text" id="total" class="a"></p>
+            <input type="submit" class="btn btn-success radius" onclick="savebook()" value="添加">
+        </table>
+    </div>
+</div>
+<div class="login-form-mask"></div>
+</body>
+</html>

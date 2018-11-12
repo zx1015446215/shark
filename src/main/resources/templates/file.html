@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传设置</title>
+</head>
+<body>
+上传一个文件:
+   <form action="/file/upload" enctype="multipart/form-data" method="post">
+       <input type="file" name="file">
+       <br>
+       <input type="submit" value="提交">
+   </form>
+<br/>
+
+上传多个文件:
+<form action="/file/uploadmore" enctype="multipart/form-data" method="post">
+    <label>是否是父节点</label>
+    <select name="parentId">
+        <option value="0">是</option>
+        <option value="1">否</option>
+    </select>
+    <br>
+    <label>是否需要密码</label>
+    <select name="needPass">
+        <option value="0">是</option>
+        <option value="1">否</option>
+    </select>
+    <br>
+    <label>密码:</label>
+    <input type="password" name="pass">
+    <br>
+    <label>标签类型</label>
+    <select name="tag">
+        <option value="0">音乐</option>
+        <option value="1">视频</option>
+        <option value="2">图片</option>
+        <option value="3">文档</option>
+        <option value="4">压缩包</option>
+        <option value="5">其他</option>
+    </select>
+    <br>
+    <input type="file" name="file" multiple="multiple">
+    <br>
+    <input type="submit" value="提交">
+</form>
+<br>
+<a href="/file/download?id=25">文件下载</a>
+</body>
+</html>

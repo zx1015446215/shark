@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.shark.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.zx.shark.model.User">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone_no" jdbcType="VARCHAR" property="phoneNo"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="create_no" jdbcType="BIGINT" property="createNo"/>
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    <result column="update_no" jdbcType="BIGINT" property="updateNo"/>
+    <result column="roles_id" jdbcType="BIGINT" property="type" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zx.shark.model.User">
+    insert into user (id, username, password , email, phone_no, create_time, create_no, update_time, update_no
+      )
+    values (#{id}, #{username}, #{password}, #{email},
+           #{phoneNo}, #{createTime},#{createNo},#{updateTime},#{updateNo}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zx.shark.model.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phoneNo = #{phoneNo,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      createNo = #{createNo,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      updateNo = #{updateNo,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.zx.shark.model.User">
+    select id, username, password , email, phone_no, create_time, create_no, update_time, update_no
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, username, password , email, phone_no, create_time, create_no, update_time, update_no, user_roles.roles_id
+    from user
+    LEFT JOIN user_roles
+    on user.id = user_roles.user_id
+  </select>
+  <select id="selectByUsername" parameterType="java.lang.String" resultType="com.zx.shark.model.User">
+    select id, username, password , email, phone_no, create_time, create_no, update_time, update_no
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+</mapper>

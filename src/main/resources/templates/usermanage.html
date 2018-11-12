@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <title>用户管理</title>
+</head>
+<body>
+<table class="table table-hover">
+    <tr>
+    <td>选择</td>
+    <td type="hiden">id</td>
+    <td>用户名</td>
+    <td>密码</td>
+    <td>电话号码</td>
+    <td>邮箱</td>
+    <td>属性</td>
+    <td>创建时间</td>
+    <td>创建人</td>
+    <td>修改时间</td>
+    <td>修改人</td>
+    <td>详情</td>
+    </tr>
+    <!--读取信息动态注入-->
+    <tr th:each="user : ${users}">
+        <td><input type="checkbox"></td>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td>****</td>
+        <td th:text="${user.phoneNo} eq null ? '空' : ${user.phoneNo}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:if="${user.type==0}">超级管理员</td>
+        <td th:if="${user.type==1}">管理员</td>
+        <td th:if="${user.type==2}">用户</td>
+        <td th:text="${user.createTime}"></td>
+        <td th:text="${user.createNo}"></td>
+        <td th:text="${user.updateTime}"></td>
+        <td th:text="${user.updateNo}"></td>
+        <td><input type="button" value="详情"></td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<title>个人博客列表</title>
+<link href="/css/book.css" rel="stylesheet">
+<link href="/css/button.css" rel="stylesheet">
+<link href="/css/form.css" rel="stylesheet">
+<style>
+    .a{
+        width: 300px;
+        height: 30px;
+        margin-left: auto;
+    }
+    /*.tableClass tr td{*/
+        /*height : 5%;*/
+        /*line-height : 20px;*/
+    /*}*/
+</style>
+</head>
+<body>
+<table id="mytable" border="1" class="table-bordered">
+    <tr >
+        <td hidden="hidden">cid</td>
+        <td>标题</td>
+        <td>作者</td>
+        <td>内容</td>
+        <td>分类</td>
+        <td>评论数量</td>
+        <td>状态</td>
+        <td>创建时间</td>
+        <td>最近修改时间</td>
+        <td>操作</td>
+    </tr>
+    <tbody id="tbody">
+    <tr th:name="${content.cid}" th:each="content : ${contents}" th:class="active">
+        <!--<td><input type="checkbox" name="checkbook" th:value="${book.id}"></td>-->
+        <!--<td th:text="${book.id}" hidden="hidden">1</td>-->
+        <td th:text="${content.title}">0</td>
+        <td th:text="${content.author}">1</td>
+        <!--<td th:text="${content.content}">2</td>-->
+        <!--<td><input type="text" cols='40' rows='5' th:value="${content.content}" >1</td>-->
+        <td><textarea id="zxtext" cols='55' rows='7' th:placeholder="${content.content}" disabled></textarea></td>
+        <td th:text="${content.categories}">3</td>
+        <td th:text="${content.comments_num}">4</td>
+        <td th:text="${content.status} eq 1 ? 已发布 : 未发布">5</td>
+        <td th:text="${content.gtm_create}">6</td>
+        <td th:text="${content.gtm_modified}">7</td>
+        <td><input th:id="${content.cid}"  type="button" class="btn btn-success" onclick="updateArticle(this.id)" value="修改" />
+        </td>
+    </tr>
+    <th><input type="button" onclick="addArticleform()" class="btn size-L btn-primary radius" value="添加书籍"></th>
+    </tbody>
+</table>
+<!--书籍的存入表单-->
+<div class="login-form" align="center">
+    <div class="login-header">
+        <a href="javascript:;"title="关闭" onclick="closeArticleform()" class="login-close close">×</a>
+        <h3 class="loginlabel">添加文章</h3>
+    </div>
+    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        <table id="addarticle">
+            <p><label>标题:</label>
+                <input type="text" id="title" class="a"></p>
+            <p><label>作者:</label>
+                <input type="text" id="author" class="a"></p>
+            <p><label>内容:</label>
+                <!--<input type="" id="content" class="a"></p>-->
+                <textarea id="content" cols="40" rows="5"></textarea>
+            </p>
+            <p><label>分类:</label>
+                <select id="articlecategories" class="a">
+                    <option value="essay">随笔</option>
+                    <option value="article">IT</option>
+                    <option value="novel">小说</option>
+                </select></p>
+            <input type="submit" class="btn btn-success radius" onclick="addArticle()"  value="添加">
+        </table>
+    </div>
+</div>
+<div class="login-form-mask"></div>
+</body>
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/const.js"></script>
+<script src="/js/article.js"></script>
+</html>

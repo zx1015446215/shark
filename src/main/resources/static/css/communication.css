@@ -1,0 +1,23 @@
+.combg{
+    background-image: url('https://raw.githubusercontent.com/zx1015446215/blog/master/imgs/combg.jpg');
+}
+.erweima{
+    background-image: url('https://raw.githubusercontent.com/zx1015446215/blog/master/imgs/erweima.jpg');
+    height: 399px;
+    width: 792px;
+}
+.com{
+    padding-top: 3%;
+    margin-right: 10%;
+    margin-left: 10%;
+}
+.com1{
+    margin-left: 10%;
+    margin-top: 6%;
+    margin-bottom: 10px;
+    font-size: xx-large;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.com2{
+    margin-left: 10px;
+}

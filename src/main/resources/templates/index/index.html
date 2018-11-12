@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<title>Zx的博客</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/button.css" rel="stylesheet">
+<link href="/css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+<link href="/css/style1.css" type="text/css" rel="stylesheet" media="all">
+<link href="/css/flexslider.css" rel="stylesheet" type="text/css" media="all" property="" />
+<link href="/css/font-awesome.css" rel="stylesheet"> 			<!-- font-awesome icons -->
+<link href="/css/comment.css" rel="stylesheet">
+<link href="/css/owl.carousel.css" rel="stylesheet" type="text/css" media="all">
+<link href="/css/login.css" rel="stylesheet" />
+<script src="/js/jquery-2.2.3.min.js"></script>
+<style>
+	.a{
+		margin-top: 15%;
+		margin-left: 40%;
+	}
+
+</style>
+</head>
+<body>
+<script>
+
+</script>
+<!-- banner -->
+<div class="banner" th:fragment="navbar">
+	<!-- header -->
+	<div class="header">
+		<div class="container">
+			<div class="header-w3lsrow">
+				<div class="menu">
+					<div class="toggle"></div>
+					<ul class="w3nav">
+						<li><a href="/blog" class="active"> 主页</a></li>
+						<li><a href="/blog/open/communication">交流</a></li>
+						<!--<li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Short Codes <span class="caret"></span></a>-->
+							<!--<ul class="dropdown-menu">-->
+								<!--<li><a href="http://www.baidu.com">测试1</a></li>-->
+								<!--<li><a href="http://www.hao123.com">测试2</a></li>-->
+							<!--</ul>-->
+						<!--</li>-->
+					</ul>
+					<div class="clearfix"> </div>
+				</div>
+
+				<div class="logo">
+					<h1><a>Zx的博客</a></h1>
+				</div>
+				<div class="header-right">
+					<ul>
+						<li><a href="/index/login">登录</a></li>
+						<li><a id="Regist_start_">注册</a></li>
+					</ul>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 会员注册 -->
+	<div class="a">
+		<div id='regist_container' style="display: none;">
+			<div id="lab1">
+				<span id="lab_login">会员注册</span>
+				<span id="lab_toLogin">
+						&emsp;已有账号&nbsp;
+						<a href="/index/login">立即登录</a>
+					</span>
+			</div>
+			<div id="form_container2" style="padding-top: 25px;">
+
+				<input type="text" class="form-control" value="admin"  placeholder="用户名" id="username"/>
+				<input type="password" class="form-control" placeholder="密码" id="password" />
+				<input type="password" class="form-control" placeholder="确认密码" id="sure_pass" />
+				<input type="text" class="form-control" placeholder="邮箱" id="email" />
+				<input type="text" class="form-control" placeholder="验证码" id="code" />
+				<input id="regis_code" type="button" class="btn btn-success" value="点击发送验证码" />
+			    <input type="button" value="注册" class="btn btn-success" id="regis_btn" />
+			</div>
+		</div>
+	</div>
+
+		<!-- banner-text -->
+		<div class="banner-text"> 
+			<div class="container">
+				<div class="flexslider">
+					<ul class="slides">
+						<li>
+							<div class="banner-w3lstext">
+								<h2>Welcome</h2>
+								<p>无论我做什么，我都想成为那个我</p>
+								<p>Whatever I do, I want to be me</p>
+							</div>
+						</li>
+						<li>
+							<div class="banner-w3lstext">
+								<h3>No End</h3>
+								<p>如果你不给自己设限，世界上便没有限制你发挥的篱笆</p>
+								<p>If you don't set limits on yourself, there's no fence in the world that limits you</p>
+							</div>
+						</li>
+						<li>
+							<div class="banner-w3lstext">
+								<h3>Life</h3>
+								<p>我不是没脾气，只是不轻易发脾气。我不是不爱你，只是放在心里而已</p>
+								<p class="">I did not temper, but not easily loses his temper.I'm not love you, just put in the heart just</p>
+							</div>
+						</li>
+					</ul> 
+				</div> 	
+				<script defer src="/js/jquery.flexslider.js"></script>
+				<script type="text/javascript">
+					$(window).load(function(){
+					  $('.flexslider').flexslider({
+						animation: "slide",
+						start: function(slider){
+						  $('body').removeClass('loading');
+						}
+					  });
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+<br/><br/>
+<!-- Main Content -->
+	<!--<div id="inhere" class="container">-->
+<div class="row zx-article">
+		<div class="col-md-6">
+			<div class="col-lg-offset-1 col-md-10 col-md-offset-1">
+				<!--加载内容 -->
+				<div id="incomeNum"></div>
+
+				<div class="clearfix">
+					<p id="flagLoaded" style="display: none; text-align: center;font-size: x-large">已全部加载</p>
+					<a id="flagLoad" style="display: none;font-size: x-large" class="btn btn-secondary float-right"
+					   href="javascript:void(0)" onclick="nextPage()">更早 &rarr;</a>
+				</div>
+			</div>
+		</div>
+		<div class="">
+			<div id="inhere">
+
+			</div>
+			<div id="commentContainer" class="container" style="display: none">
+				<div class="commentbox">
+					<textarea cols="200" rows="50" placeholder="来说几句吧......" class="mytextarea" id="content"></textarea>
+					<div class="btn btn-info pull-right" id="comment">评论</div>
+				</div>
+				<div id="loadComment" class="comment-list">
+				</div>
+			</div>
+		</div>
+</div>
+</body>
+<!--页面加载更快-->
+<script src="/js/bootstrap.js"></script>
+<script src="/js/const.js"></script>
+<script src="/js/index.js"></script>
+<!-- menu js -->
+<script>
+    $('.toggle').on('click', function() {
+        $('.menu').toggleClass('open');
+        $('.w3nav').toggleClass('show-w3nav');
+        $('.w3nav a').toggleClass('show-w3nav-link');
+        $('.toggle').toggleClass('close');
+    });
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-XXXXX-X']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-XXXXX-X']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+<!-- //menu js -->
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/smoothscroll.min.js"></script>
+<script src="/js/owl.carousel.js"></script>
+<script src="/js/register.js"></script>
+<script src="/js/sendCode.js"></script>
+</html>

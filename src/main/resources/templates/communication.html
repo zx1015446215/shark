@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Communication</title>
+<link href="/css/communication.css" rel="stylesheet">
+<link href="/css/style1.css" rel="stylesheet">
+</head>
+<body class="combg">
+<div class="com">
+        <div class="menu">
+            <div class="toggle"></div>
+            <ul class="w3nav">
+                <li><a href="/blog" class="active"> 主页</a></li>
+                <li><a href="/blog/open/communication">交流</a></li>
+            </ul>
+            <div class="clearfix"> </div>
+        </div>
+</div>
+<div class="com1">
+
+    <div class="com2"><label>欢迎加我QQ或微信交流学习</label></div>
+    <br/>
+    <div class="com2"><label>qq:1015446215</label></div>
+    <br/>
+    <br/>
+    <div class="erweima"></div>
+</div>
+
+
+</body>
+<script src="/js/jquery-2.2.3.min.js"></script>
+<script src="/js/owl.carousel.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    $('.toggle').on('click', function() {
+        $('.menu').toggleClass('open');
+        $('.w3nav').toggleClass('show-w3nav');
+        $('.w3nav a').toggleClass('show-w3nav-link');
+        $('.toggle').toggleClass('close');
+    });
+</script>
+</html>

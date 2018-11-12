@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zx.shark.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.zx.shark.model.Role">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zx.shark.model.Role">
+    insert into role (id, name
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertUser_Roles" parameterType="com.zx.shark.model.User_Roles">
+    insert into user_roles (user_id, roles_id
+    )
+    value (#{user_id,jdbcType=VARCHAR},#{roles_id,jdbcType=VARCHAR}
+    )
+  </insert>
+  <select id="selectByUserId" parameterType="java.lang.Long" resultType="com.zx.shark.model.Role">
+    select id, name
+    from role
+    where id = (select roles_id from user_roles where user_id=#{id,jdbcType=VARCHAR}
+    )
+  </select>
+</mapper>

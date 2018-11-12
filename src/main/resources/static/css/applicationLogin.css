@@ -1,0 +1,16 @@
+.github {
+    background: url("../img/github.jpg");
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+.qq {
+    background: url("../img/qq.jpg");
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+.oauth {
+
+}

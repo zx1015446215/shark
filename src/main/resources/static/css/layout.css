@@ -1,0 +1,6 @@
+
+.std_cont{ width: 1200px; margin: 0 auto; padding-bottom:1px;}
+.std_topbox{ border:1px solid #cdcdcd; padding:19px 28px; background:#e8e8e8; width:1044px; height:auto; overflow:hidden; margin-bottom:47px;}
+.std_topbox .sp01{ font-size:18px; padding-left:45px; height:36px; line-height:36px; padding-right:18px; float:left; display:inline-block}
+.std_se_01{border:1px solid #cdcdcd; padding:5px; line-height:37px; height:37px; width:240px; float:left; margin-right:20px; }
+.std_search{ float:left; width:92px; height:36px; line-height:36px; text-align:center; background:#666; color:#fff; font-size:18px; cursor:pointer}

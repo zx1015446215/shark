@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<link href="/css/book.css" rel="stylesheet">
+<link href="/css/button.css" rel="stylesheet">
+<link href="/css/form.css" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>图书馆</title>
+    <style>
+        .a{
+            width: 300px;
+            height: 30px;
+            margin-left: auto;
+        }
+    </style>
+
+</head>
+<body>
+
+    <table id="mytable" border="1"  class="table table-border table-bordered table-striped">
+        <tr >
+            <td><input type="checkbox" name="checkAll" onclick="funSelAll()" value="1"></td>
+            <td hidden="hidden">id</td>
+            <td>书名</td>
+            <td>类别</td>
+            <td>作者</td>
+            <td>出版社</td>
+            <td>出版时间</td>
+            <td>剩余数量</td>
+            <td>总数</td>
+        </tr>
+        <tbody id="tbody">
+
+        <tr th:each="book : ${books}" th:class="${book.remain} gt 0 ? 'active' : 'danger'">
+            <td><input type="checkbox" name="checkbook" th:value="${book.id}"></td>
+            <td th:text="${book.id}" hidden="hidden">1</td>
+            <td th:text="${book.name}">1</td>
+            <td th:text="${book.type}">1</td>
+            <td th:text="${book.author}">2</td>
+            <td th:text="${book.company}">3</td>
+            <td th:text="${book.publishtime}">4</td>
+            <td th:text="${book.remain}">5</td>
+            <td th:text="${book.total}">6</td>
+        </tr>
+        <th><input type="button" onclick="addbook()" class="btn size-L btn-primary radius" value="添加书籍"></th>
+        <th><input type="button" onclick="deleteBooks()" class="btn size-L btn-danger radius" value="删除选中书籍"></th>
+        </tbody>
+    </table>
+    <img href="">
+
+
+
+    <!--<input class="btn btn-default" type="button" value="默认">-->
+    <!--<input class="btn btn-default radius" type="button" value="圆角效果">-->
+    <!--<input class="btn btn-default round" type="button" value="椭圆效果">-->
+    <!--<input class="btn btn-primary radius" type="button" value="主要">-->
+    <!--<input class="btn radius btn-secondary" type="button" value="次要">-->
+    <!--<input class="btn btn-success radius" type="button" value="成功">-->
+    <!--<input class="btn radius btn-warning" type="button" value="警告">-->
+    <!--<input class="btn btn-danger radius" type="button" value="危险">-->
+    <!--<input class="btn btn-link radius" type="button" value="链接">-->
+    <!--<input class="btn disabled radius" type="button" value="禁用">-->
+
+
+    <!--&lt;!&ndash;定义颜色的案例&ndash;&gt;-->
+    <!--<table class="table table-border table-bg table-bordered">-->
+        <!--<thead>-->
+        <!--<tr><th width="20%">Class</th><th>描述</th></tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr class="active"><th>.active</th><td>悬停在行</td></tr>-->
+        <!--<tr class="success"><th>.success</th><td>成功或积极</td></tr>-->
+        <!--<tr class="warning"><th>.warning</th><td>警告或出错</td></tr>-->
+        <!--<tr class="danger"><th>.danger</th><td>危险</td></tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
+
+    <!--书籍的存入表单-->
+    <div class="login-form" align="center">
+        <div class="login-header">
+            <a href="javascript:;"title="关闭" onclick="closebookform()" class="login-close close">×</a>
+            <h3 class="loginlabel">书籍信息注册</h3>
+        </div>
+        <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+            <table id="addbook">
+                <p><label>书名:</label>
+                    <input type="text" id="name" class="a"></p>
+                <p><label>作者:</label>
+                    <input type="text" id="author" class="a"></p>
+                <p><label>类别:</label>
+                    <select id="booktype" class="a">
+                        <option value="文学">文学</option>
+                        <option value="青春">青春</option>
+                        <option value="小说">小说</option>
+                        <option value="艺术">艺术</option>
+                        <option value="动漫/幽默">动漫/幽默</option>
+                        <option value="娱乐时尚">娱乐时尚</option>
+                        <option value="旅游">旅游</option>
+                        <option value="美食">美食</option>
+                        <option value="两性">两性</option>
+                        <option value="体育">体育</option>
+                        <option value="历史">历史</option>
+                        <option value="经济">经济</option>
+                        <option value="工具书">工具书</option>
+                    </select></p>
+                <p> <label>出版社:</label>
+                    <input type="text" id="company" class="a"></p>
+                <p><label>出版时间:</label>
+                    <input type="startDate" id="publishtime" class="a"></p>
+                <p><label>存入数量:</label>
+                    <input type="text" id="total" class="a"></p>
+                <input type="submit" class="btn btn-success radius" onclick="savebook()" value="添加">
+            </table>
+        </div>
+    </div>
+    <div class="login-form-mask"></div>
+</body>
+<script src="/js/jquery.min.js?v=2.1.4"></script>
+<script src="/js/const.js"></script>
+<script src="/js/book.js"></script>
+</html>
