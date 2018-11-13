@@ -1,6 +1,5 @@
 package com.zx.shark.doFile.controller;
 
-
 import com.zx.shark.doFile.model.FileTagEnum;
 import com.zx.shark.doFile.model.MyFile;
 import com.zx.shark.doFile.service.FileService;
@@ -45,6 +44,14 @@ public class FileController {
 
     @RequestMapping
     public ModelAndView main(){
+        ModelAndView modelAndView = new ModelAndView("file/index");
+        List<MyFile> files = fileService.list(new MyFile());
+        modelAndView.addObject("files",files);
+        return modelAndView;
+    }
+
+    @RequestMapping("/test")
+    public ModelAndView test(){
         ModelAndView modelAndView = new ModelAndView("file");
         return modelAndView;
     }
@@ -60,7 +67,7 @@ public class FileController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         username = String.valueOf(authentication.getPrincipal());
         fileName = file.getOriginalFilename();
-        filePath = SystemPath+username+"/"+FileTagEnum.getTagName(tag) +"/"+fileName;
+        filePath = SystemPath+username+"/"+FileTagEnum.getTagName(tag).getStatus() +"/"+fileName;
         size = file.getSize();
         File dest = new File(filePath);
         //检查是否存在此目录
@@ -70,7 +77,7 @@ public class FileController {
         }
         try {
             file.transferTo(dest);
-            MyFile myFile = new MyFile(parentId, username, fileName, fileType, tag,size, filePath, needPass, pass, createTime);
+            MyFile myFile = new MyFile(parentId, username, fileName, fileType, tag,size, filePath, needPass, pass, createTime,FileTagEnum.getTagName(tag).getFileImage());
             //将内容储存在数据库中
             fileService.save(myFile);
             return "上传成功";
@@ -104,7 +111,7 @@ public class FileController {
             }
             try {
                 file.transferTo(dest);
-                MyFile myFile = new MyFile(parentId, username, fileName, fileType, tag,size, filePath, needPass, pass, createTime);
+                MyFile myFile = new MyFile(parentId, username, fileName, fileType, tag,size, filePath, needPass, pass, createTime,FileTagEnum.getTagName(tag).getFileImage());
                 //将内容储存在数据库中
                 fileService.save(myFile);
             } catch (IOException e) {
@@ -120,13 +127,17 @@ public class FileController {
      * @param id
      */
     @RequestMapping("/download")
-    public void fileDownload(HttpServletResponse response,@RequestParam("id")Long id){
-        MyFile myFile = new MyFile();
-        myFile.setId(id);
+    public void fileDownload(HttpServletResponse response, @RequestParam(value = "id",required = false)Long id){
         System.out.println("进入download");
+        MyFile myFile = new MyFile();
+        if(id!=null) {  //如果存在参数添加
+            myFile.setId(id);
+        }
         List<MyFile> list=fileService.list(myFile);
         DownloadFiles(response, list);
     }
+
+
 
     /**
      * 根据list和response返回文件给用户下载
@@ -169,6 +180,18 @@ public class FileController {
             }
         }
     }
+
+    @RequestMapping("/findFilesByObject")
+    @ResponseBody
+    public List<MyFile> find(@RequestParam(value = "tag",required = false)Integer tag){
+        MyFile myFile = new MyFile();
+        if(tag!=null){
+            myFile.setTag(tag);
+        }
+        List<MyFile> list = fileService.list(myFile);
+        return list;
+    }
+
 
     public void getFileFormRequest(HttpServletRequest request){
         parentId = Long.valueOf(request.getParameter("parentId"));

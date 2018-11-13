@@ -14,10 +14,10 @@
 		<result column="need_pass" property="needPass" jdbcType="INTEGER" />
 		<result column="pass" property="pass" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-
+		<result column="file_image" property="fileImage" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="find" resultMap="BaseResultMap">
-		select id, parent_id, username, file_name, file_type, tag, size, file_path, need_pass, pass, create_time
+		select id, parent_id, username, file_name, file_type, tag, size, file_path, need_pass, pass, create_time, file_image
 		from file
         <where>
 			<if test="id != null and id != ''"> id = #{id} </if>
@@ -31,6 +31,8 @@
 			<if test="needPass != null and needPass != ''"> and need_pass = #{needPass} </if>
 			<if test="pass != null and pass != ''"> and pass = #{pass} </if>
 			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			<if test="fileImage != null and fileImage != ''"> and file_image = #{fileImage} </if>
+
 		</where>
         <!--<choose>-->
             <!--<when test="sort != null and sort.trim() != ''">-->
@@ -58,7 +60,8 @@
 		<if test="filePath != null and filePath != ''">`file_path`,</if>
 		`need_pass`,
 		`pass`,
-		`create_time`
+		`create_time`,
+		`file_image`
 		)
 		values
 		(
@@ -72,7 +75,8 @@
 		<if test="filePath != null and filePath != ''">#{filePath},</if>
 		#{needPass},
 		#{pass},
-		#{createTime}
+		#{createTime},
+		#{fileImage}
 		)
 	</insert>
 	 

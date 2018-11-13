@@ -34,7 +34,9 @@ public class MyFile {
 
     private Timestamp createTime;  //创建时间
 
-    public MyFile(Long id, Long parentId,String username, String fileName, String fileType, Integer tag, Long size, String filePath, Integer needPass, String pass, Timestamp createTime) {
+    private String fileImage;  //文件图案
+
+    public MyFile(Long id, Long parentId,String username, String fileName, String fileType, Integer tag, Long size, String filePath, Integer needPass, String pass, Timestamp createTime, String fileImage) {
         this.id = id;
         this.parentId = parentId;
         this.username = username;
@@ -46,9 +48,10 @@ public class MyFile {
         this.needPass = needPass;
         this.pass = pass;
         this.createTime = createTime;
+        this.fileImage = fileImage;
     }
 
-    public MyFile(Long parentId,String username, String fileName, String fileType, Integer tag, Long size, String filePath, Integer needPass, String pass, Timestamp createTime) {
+    public MyFile(Long parentId,String username, String fileName, String fileType, Integer tag, Long size, String filePath, Integer needPass, String pass, Timestamp createTime, String fileImage) {
         this.parentId = parentId;
         this.username = username;
         this.fileName = fileName;
@@ -59,6 +62,7 @@ public class MyFile {
         this.needPass = needPass;
         this.pass = pass;
         this.createTime = createTime;
+        this.fileImage = fileImage;
     }
 
     public MyFile() {
@@ -151,5 +155,13 @@ public class MyFile {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public String getFileImage() {
+        return fileImage;
+    }
+
+    public void setFileImage(String fileImage) {
+        this.fileImage = fileImage;
     }
 }

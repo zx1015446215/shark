@@ -59,7 +59,7 @@ github:
     userInfoUri: https://api.github.com/user
 
 file:
-  absolute-location: C:/Users/zx/Desktop/file/
+  absolute-location: C:/Users/zhuin/Desktop/file/
 
 multipart:
    maxFileSize: 10Mb
