@@ -11,13 +11,11 @@
 		<result column="tag" property="tag" jdbcType="INTEGER" />
 		<result column="size" property="size" jdbcType="BIGINT" />
 		<result column="file_path" property="filePath" jdbcType="VARCHAR" />
-		<result column="need_pass" property="needPass" jdbcType="INTEGER" />
-		<result column="pass" property="pass" jdbcType="VARCHAR" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="file_image" property="fileImage" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="find" resultMap="BaseResultMap">
-		select id, parent_id, username, file_name, file_type, tag, size, file_path, need_pass, pass, create_time, file_image
+		select id, parent_id, username, file_name, file_type, tag, size, file_path, create_time, file_image
 		from file
         <where>
 			<if test="id != null and id != ''"> id = #{id} </if>
@@ -28,8 +26,6 @@
 			<if test="tag != null and tag != ''"> and tag = #{tag} </if>
 			<if test="size != null and size != ''"> and size = #{size} </if>
 			<if test="filePath != null and filePath != ''"> and file_path = #{filePath} </if>
-			<if test="needPass != null and needPass != ''"> and need_pass = #{needPass} </if>
-			<if test="pass != null and pass != ''"> and pass = #{pass} </if>
 			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
 			<if test="fileImage != null and fileImage != ''"> and file_image = #{fileImage} </if>
 
@@ -58,8 +54,6 @@
 		`tag`,
 		`size`,
 		<if test="filePath != null and filePath != ''">`file_path`,</if>
-		`need_pass`,
-		`pass`,
 		`create_time`,
 		`file_image`
 		)
@@ -73,8 +67,6 @@
 		#{tag},
 		#{size},
 		<if test="filePath != null and filePath != ''">#{filePath},</if>
-		#{needPass},
-		#{pass},
 		#{createTime},
 		#{fileImage}
 		)

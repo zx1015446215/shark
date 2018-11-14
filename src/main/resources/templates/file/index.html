@@ -33,18 +33,26 @@
     <div class="left-menu-top">
         <a href="javascript:void(0)">
             <div class="left-menu-top-small">
+                <!--新建文档-->
                 <img src="/images/file/index_01.png"/>
             </div>
         </a>
         <a href="javascript:void(0)">
             <div class="left-menu-top-small">
-                <img src="/images/file/index_02.png"/>
+                <!--上传文档-->
+                    <label>
+                        <form id="uploadForm" action="/file/uploadmore" enctype="multipart/form-data" method="post">
+                            <input id="uploadFile" name="file" type="file" style="position: absolute;opacity: 0;" multiple="multiple" onchange="uploadFile1()" />
+                            <img src="/images/file/index_02.png" style="position: absolute;"/>
+                        </form>
+                    </label>
             </div>
         </a>
     </div>
     <div class="left-menu-one">
         <a href="my.html">
             <div class="left-menu-one-small">
+                <!--我的文档-->
                 <img src="/images/file/index_03_1.png"/>
             </div>
         </a>
@@ -125,6 +133,7 @@
                 <div class="z the">我的文档</div>
             </div>
             <div class="content cl" style="padding-left: 2%;height:500px;overflow-y:auto;pisition:relative;">
+                //动态获取文件内容
                 <div th:each="file : ${files}" th:class="${file.tag} gt 6 ? 'box template' : 'box2 template'" data-show="no">
                     <img th:src="${file.fileImage}" class="icon" alt="">
                     <div>
@@ -231,6 +240,7 @@
 <script type="text/javascript" src="/js/file/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="/js/file/pageGroup.js"></script>
 <script type="text/javascript" src="/js/file/index.js"></script>
+<script type="text/javascript" src="/js/jquery.form.js"></script>
 <script>
     $(".sousouInput").blur(function(){
         $(".sousuo").css({
@@ -307,6 +317,26 @@
         $(".closeMove,.ok,.quxiao").click(function(){
            $(".moveBox").hide();
         });
+
+    function  uploadFile1() {
+        var flag = confirm("确定上传此文件嘛?");
+        if(flag == true){
+            $("#uploadForm").ajaxSubmit({
+                success: function (e) {
+                    var status = e.status;
+                    if(status == 200){
+                         alert("上传成功");
+                    }else{
+                        alert(e.msg);
+                    }
+                },
+                error: function (e) {
+                    console.log("error", e.statusText);
+                }
+            });
+        }
+    }
 </script>
+
 </body>
 </html>

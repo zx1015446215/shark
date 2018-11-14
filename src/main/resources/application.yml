@@ -62,5 +62,5 @@ file:
   absolute-location: C:/Users/zhuin/Desktop/file/
 
 multipart:
-   maxFileSize: 10Mb
-   maxRequestSize: 50Mb
+   maxFileSize: 100Mb
+   maxRequestSize: 150Mb

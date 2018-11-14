@@ -28,15 +28,11 @@ public class MyFile {
 
     private String filePath;  //文件地址
 
-    private Integer needPass;  //0：需要密码  1：不需要密码
-
-    private String pass;   //六位数的密码
-
     private Timestamp createTime;  //创建时间
 
     private String fileImage;  //文件图案
 
-    public MyFile(Long id, Long parentId,String username, String fileName, String fileType, Integer tag, Long size, String filePath, Integer needPass, String pass, Timestamp createTime, String fileImage) {
+    public MyFile(Long id, Long parentId,String username, String fileName, String fileType, Integer tag, Long size, String filePath, Timestamp createTime, String fileImage) {
         this.id = id;
         this.parentId = parentId;
         this.username = username;
@@ -45,13 +41,11 @@ public class MyFile {
         this.tag = tag;
         this.size = size;
         this.filePath = filePath;
-        this.needPass = needPass;
-        this.pass = pass;
         this.createTime = createTime;
         this.fileImage = fileImage;
     }
 
-    public MyFile(Long parentId,String username, String fileName, String fileType, Integer tag, Long size, String filePath, Integer needPass, String pass, Timestamp createTime, String fileImage) {
+    public MyFile(Long parentId,String username, String fileName, String fileType, Integer tag, Long size, String filePath, Timestamp createTime, String fileImage) {
         this.parentId = parentId;
         this.username = username;
         this.fileName = fileName;
@@ -59,8 +53,6 @@ public class MyFile {
         this.tag = tag;
         this.size = size;
         this.filePath = filePath;
-        this.needPass = needPass;
-        this.pass = pass;
         this.createTime = createTime;
         this.fileImage = fileImage;
     }
@@ -131,22 +123,6 @@ public class MyFile {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
-    }
-
-    public Integer getNeedPass() {
-        return needPass;
-    }
-
-    public void setNeedPass(Integer needPass) {
-        this.needPass = needPass;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
     }
 
     public Timestamp getCreateTime() {

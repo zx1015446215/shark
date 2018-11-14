@@ -3,6 +3,12 @@ package com.zx.shark.doFile.controller;
 import com.zx.shark.doFile.model.FileTagEnum;
 import com.zx.shark.doFile.model.MyFile;
 import com.zx.shark.doFile.service.FileService;
+import com.zx.shark.utils.JSONResult;
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.apache.tomcat.util.http.fileupload.RequestContext;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -19,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("file")
@@ -38,8 +44,6 @@ public class FileController {
     private String fileType;   //文件类型
     private Integer tag;    //文件标签，音乐、电影、文档、压缩文件、其他
     private Long size;   //文件大小
-    private Integer needPass;   //是否为私密文件
-    private String pass;      //密码
     private Timestamp createTime;   //创建时间
 
     @RequestMapping
@@ -59,7 +63,9 @@ public class FileController {
     @RequestMapping("/upload")
     @ResponseBody
     public String upload(HttpServletRequest request){
-        getFileFormRequest(request);  //从request中获取信息
+        System.out.println("进入upload");
+        parentId = 0L;
+        createTime = new Timestamp(System.currentTimeMillis());
         MultipartFile file = ((MultipartHttpServletRequest)request).getFile("file");
         if (file.isEmpty()){
             return "文件为空";
@@ -67,7 +73,7 @@ public class FileController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         username = String.valueOf(authentication.getPrincipal());
         fileName = file.getOriginalFilename();
-        filePath = SystemPath+username+"/"+FileTagEnum.getTagName(tag).getStatus() +"/"+fileName;
+        filePath = SystemPath+username+"/"+FileTagEnum.getTagName(tag).getTag() +"/"+fileName;
         size = file.getSize();
         File dest = new File(filePath);
         //检查是否存在此目录
@@ -77,7 +83,7 @@ public class FileController {
         }
         try {
             file.transferTo(dest);
-            MyFile myFile = new MyFile(parentId, username, fileName, fileType, tag,size, filePath, needPass, pass, createTime,FileTagEnum.getTagName(tag).getFileImage());
+            MyFile myFile = new MyFile(parentId, username, fileName, fileType, tag,size, filePath, createTime,FileTagEnum.getTagName(tag).getFileImage());
             //将内容储存在数据库中
             fileService.save(myFile);
             return "上传成功";
@@ -89,20 +95,47 @@ public class FileController {
 
     @RequestMapping("/uploadmore")
     @ResponseBody
-    public String uploadmore(HttpServletRequest request){
+    public JSONResult uploadmore(HttpServletRequest request){
         System.out.println("进入uploadmore");
-        getFileFormRequest(request);   //从request获取文件的部分信息
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        if(files.isEmpty()){
-            return "文件为空";
-        }
+        parentId = 0L;
+        createTime = new Timestamp(System.currentTimeMillis());
+
+        List<MultipartFile> files = ((MultipartHttpServletRequest)request).getFiles("file");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         username = String.valueOf(authentication.getPrincipal());
-        for(MultipartFile file : files){
+        for(MultipartFile file: files){
             fileName = file.getOriginalFilename();
-            fileType = fileName.substring(fileName.lastIndexOf("."));
+            fileType = fileName.substring(fileName.lastIndexOf(".")+1);
+            //通过fileType来决定tag的值，通过tag的值来决定fileImage
+            //图片
+            String[] pics = { "JPEG","PNG", "GIF","TIFF","BMP","DWG","PSD" };
+            //文档
+            String[] docs = {"DOC","RTF", "XML", "HTML", "CSS", "JS","EML", "DBX", "PST", "XLS_DOC", "XLSX_DOCX"
+                    , "VSD", "MDB", "WPS","WPD","EPS", "PDF","QDF", "PWL","RAR", "JSP", "JAVA,CLASS","DOCX",
+                     "MF","EXE","CHM"};
+            //视频
+            String[] videos = { "AVI", "RAM", "RM", "MPG","MOV","ASF","MP4","FLV","MID" };
+            //压缩包
+            String[] zips = {"ZIP","JAR","CAB","GZ" ,"TAR","7Z","WAR"};
+            //音乐
+            String[] musics = {"WAV", "MP3" };
+
+            if(Arrays.binarySearch(pics,fileType.toUpperCase())>0){  //若图片中存在
+                tag = 2;
+            }else if(Arrays.binarySearch(docs,fileType.toUpperCase())>0){  //若文档中存在
+                tag = 3;
+            }else if(Arrays.binarySearch(videos,fileType.toUpperCase())>0){ //若视频中存在
+                tag = 1;
+            }else if(Arrays.binarySearch(zips,fileType.toUpperCase())>0) {  //若压缩包中存在
+                tag = 4;
+            }else if(Arrays.binarySearch(musics,fileType.toUpperCase())>0){  //若音乐中存在
+                tag = 0;
+            }else{  //在其它中
+                tag = 5;
+            }
+
             size = file.getSize();
-            filePath = SystemPath+username+"/"+FileTagEnum.getTagName(tag)+"/"+fileName;
+            filePath = SystemPath+username+"/"+FileTagEnum.getTagName(tag).getTag()+"/"+fileName;
             File dest = new File(filePath);
             //检查是否存在此目录
             if(!dest.getParentFile().exists()){
@@ -111,14 +144,14 @@ public class FileController {
             }
             try {
                 file.transferTo(dest);
-                MyFile myFile = new MyFile(parentId, username, fileName, fileType, tag,size, filePath, needPass, pass, createTime,FileTagEnum.getTagName(tag).getFileImage());
+                MyFile myFile = new MyFile(parentId, username, fileName, fileType, tag,size, filePath, createTime,FileTagEnum.getTagName(tag).getFileImage());
                 //将内容储存在数据库中
                 fileService.save(myFile);
             } catch (IOException e) {
-                return "上传"+file.getOriginalFilename()+"文件失败";
+                return JSONResult.errorMsg("上传"+fileName+"文件失败");
             }
         }
-        return "上传成功";
+        return JSONResult.ok();
     }
 
     /**
@@ -193,13 +226,4 @@ public class FileController {
     }
 
 
-    public void getFileFormRequest(HttpServletRequest request){
-        parentId = Long.valueOf(request.getParameter("parentId"));
-        tag = Integer.valueOf(request.getParameter("tag"));
-        needPass = Integer.valueOf(request.getParameter("needPass"));
-        if(needPass==0){
-            pass = request.getParameter("pass");
-        }
-        createTime = new Timestamp(System.currentTimeMillis());
-    }
 }
