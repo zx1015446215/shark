@@ -28,7 +28,6 @@
 			<if test="filePath != null and filePath != ''"> and file_path = #{filePath} </if>
 			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
 			<if test="fileImage != null and fileImage != ''"> and file_image = #{fileImage} </if>
-
 		</where>
         <!--<choose>-->
             <!--<when test="sort != null and sort.trim() != ''">-->
@@ -41,6 +40,15 @@
 		<!--<if test="offset != null and limit != null">-->
 			<!--limit ${offset}, ${limit}-->
 		<!--</if>-->
+	</select>
+
+	<select id="findByIds" resultMap="BaseResultMap">
+	    select id, parent_id, username, file_name, file_type, tag, size, file_path, create_time, file_image
+		from file
+		where id  in
+		<foreach item="item" collection="array" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</select>
 
 	<insert id="insert" parameterType="com.zx.shark.doFile.model.MyFile" useGeneratedKeys="true" keyProperty="id">
@@ -74,8 +82,27 @@
 	 
 
 	<delete id="delete">
-		delete from file where id = #{value}
+		delete from file
+		where id  in 
+		<foreach item="item" collection="array" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</delete>
+
+	<update id="update">
+		update file
+		<set>
+			<if test="parentId != null and parentId != ''"> parent_id = #{parentId}, </if>
+			<if test="username != null and username != ''"> username = #{username}, </if>
+			<if test="fileName != null and fileName != ''"> file_name = #{fileName}, </if>
+			<if test="fileType != null and fileType != ''"> file_type = #{fileType} ,</if>
+			<if test="tag != null and tag != ''"> tag = #{tag}, </if>
+			<if test="size != null and size != ''"> size = #{size}, </if>
+			<if test="filePath != null and filePath != ''"> file_path = #{filePath}, </if>
+			<if test="createTime != null and createTime != ''"> create_time = #{createTime} ,</if>
+			<if test="fileImage != null and fileImage != ''"> file_image = #{fileImage} </if>
+		</set>
+	</update>
 
 
 </mapper>

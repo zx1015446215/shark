@@ -118,11 +118,11 @@
     <div class="content">
         <div id="page_content">
             <div class="zuijinTop cl">
-                <img src="/images/file/xiazai.png" class="xiazai z" alt="">
-                <img src="/images/file/yidong.png" class="yidong z" alt="">
-                <img src="/images/file/chong.png" class="chong z" alt="">
-                <img src="/images/file/shanchu.png" class="shanchu z" alt="">
-                <img src="/images/file/xinjian.png" class="xin z" alt="">
+                <img src="/images/file/xiazai.png" class="xiazai z" alt="下载文件">
+                <img src="/images/file/yidong.png" class="yidong z" alt="移动文件">
+                <img src="/images/file/chong.png" class="chong z" alt="重命名">
+                <img src="/images/file/shanchu.png" class="shanchu z" alt="删除文件">
+                <img src="/images/file/xinjian.png" class="xin z" alt="新建文件夹">
                 <!--<div class="sousuo y">-->
                     <!--<div class="ss1 z"></div>-->
                     <!--<input type="text" placeholder="请输入关键字搜索文件" class="z sousouInput" />-->
@@ -133,9 +133,9 @@
                 <div class="z the">我的文档</div>
             </div>
             <div class="content cl" style="padding-left: 2%;height:500px;overflow-y:auto;pisition:relative;">
-                //动态获取文件内容
+                <!--动态获取文件内容-->
                 <div th:each="file : ${files}" th:class="${file.tag} gt 6 ? 'box template' : 'box2 template'" data-show="no">
-                    <img th:src="${file.fileImage}" class="icon" alt="">
+                    <img th:src="${file.fileImage}" th:id="${file.id}" class="icon" alt="">
                     <div>
                         <p th:text="${file.fileName}"></p>
                         <input type="text" class="none">
@@ -143,42 +143,42 @@
                     <img src="/images/file/select.png" class="select" alt="">
                 </div>
 
-                <!--文件夹例子-->
-                <div class="box template" data-show="no">
-                    <img src="/images/file/wenjian.png" class="icon" alt="">
-                    <div>
-                        <p>文件</p>
-                        <input type="text" class="none">
-                    </div>
-                    <img src="/images/file/select.png" class="select" alt="">
-                </div>
-                <!--ppt例子-->
-                <div class="box2 template" data-show="no">
-                    <img src="/images/file/icon2.png" class="icon" alt="">
-                    <div>
-                        <p>ppt例子</p>
-                        <input type="text" class="none">
-                    </div>
-                    <img src="/images/file/select.png" class="select" alt="">
-                </div>
-                <!--xls例子-->
-                <div class="box2 template" data-show="no">
-                    <img src="/images/file/icon1.png" class="icon" alt="">
-                    <div>
-                        <p>xls例子</p>
-                        <input type="text" class="none">
-                    </div>
-                    <img src="/images/file/select.png" class="select" alt="">
-                </div>
-                <!--word例子-->
-                <div class="box2 template" data-show="no">
-                    <img src="/images/file/icon3.png" class="icon" alt="">
-                    <div>
-                        <p>word例子</p>
-                        <input type="text" class="none">
-                    </div>
-                    <img src="/images/file/select.png" class="select" alt="">
-                </div>
+                <!--&lt;!&ndash;文件夹例子&ndash;&gt;-->
+                <!--<div class="box template" data-show="no">-->
+                    <!--<img src="/images/file/wenjian.png" class="icon" alt="">-->
+                    <!--<div>-->
+                        <!--<p>文件</p>-->
+                        <!--<input type="text" class="none">-->
+                    <!--</div>-->
+                    <!--<img src="/images/file/select.png" class="select" alt="">-->
+                <!--</div>-->
+                <!--&lt;!&ndash;ppt例子&ndash;&gt;-->
+                <!--<div class="box2 template" data-show="no">-->
+                    <!--<img src="/images/file/icon2.png" class="icon" alt="">-->
+                    <!--<div>-->
+                        <!--<p>ppt例子</p>-->
+                        <!--<input type="text" class="none">-->
+                    <!--</div>-->
+                    <!--<img src="/images/file/select.png" class="select" alt="">-->
+                <!--</div>-->
+                <!--&lt;!&ndash;xls例子&ndash;&gt;-->
+                <!--<div class="box2 template" data-show="no">-->
+                    <!--<img src="/images/file/icon1.png" class="icon" alt="">-->
+                    <!--<div>-->
+                        <!--<p>xls例子</p>-->
+                        <!--<input type="text" class="none">-->
+                    <!--</div>-->
+                    <!--<img src="/images/file/select.png" class="select" alt="">-->
+                <!--</div>-->
+                <!--&lt;!&ndash;word例子&ndash;&gt;-->
+                <!--<div class="box2 template" data-show="no">-->
+                    <!--<img src="/images/file/icon3.png" class="icon" alt="">-->
+                    <!--<div>-->
+                        <!--<p>word例子</p>-->
+                        <!--<input type="text" class="none">-->
+                    <!--</div>-->
+                    <!--<img src="/images/file/select.png" class="select" alt="">-->
+                <!--</div>-->
                 
             </div>
             <div style='width:90%;position:fixed;bottom:10px;margin:auto'>
@@ -310,13 +310,44 @@
             $(".contentMain p").eq(e).addClass("templateUrlClickP");
        });
     });
-
+    /*移动点击操作*/
     $(".yidong").click(function(){
         $(".moveBox").show();
     });
-        $(".closeMove,.ok,.quxiao").click(function(){
-           $(".moveBox").hide();
+    /*删除点击操作*/
+    $(".shanchu").click(function(){
+            //获取选中的内容的id
+            var arr = [];
+            $('.icon').each(function () {
+                if ($(this).parent().attr('data-show') === 'yes') {
+                    arr.push($(this).attr('id'));
+                }
+            });
+            if(confirm("确定删除文件") == false){
+                return ;
+            }
+        $.ajax({
+            url: "http://localhost:8080/file/delete",
+            type: "POST",
+            datatype: "json",
+            data: {
+                ids : arr.toString()
+            },
+            error: function(e) {
+                console.log("error", e.statusText);
+                alert("删除失败")
+            },
+            success: function(res) {
+                location.reload()
+            },
+            complete: function(d) {
+                console.log("done");
+            }
         });
+    });
+    $(".closeMove,.ok,.quxiao").click(function(){
+       $(".moveBox").hide();
+    });
 
     function  uploadFile1() {
         var flag = confirm("确定上传此文件嘛?");
@@ -325,7 +356,8 @@
                 success: function (e) {
                     var status = e.status;
                     if(status == 200){
-                         alert("上传成功");
+                        location.reload();
+
                     }else{
                         alert(e.msg);
                     }

@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface FileMapper {
     void insert(MyFile myFile);
-    void delete(Long id);
+    void delete(String[] ids);
     List<MyFile> find(MyFile myFile);
+    List<MyFile> findByIds(String[] ids);
 }

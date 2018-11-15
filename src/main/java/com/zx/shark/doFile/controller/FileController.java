@@ -4,11 +4,6 @@ import com.zx.shark.doFile.model.FileTagEnum;
 import com.zx.shark.doFile.model.MyFile;
 import com.zx.shark.doFile.service.FileService;
 import com.zx.shark.utils.JSONResult;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.apache.tomcat.util.http.fileupload.RequestContext;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -46,6 +41,19 @@ public class FileController {
     private Long size;   //文件大小
     private Timestamp createTime;   //创建时间
 
+    //图片
+    private String[] pics = {"JPG","JPEG","PNG","GIF","TIFF","BMP","DWG","PSD"};
+    //文档
+    private String[] docs = {"DOC","RTF", "XML", "HTML", "CSS", "JS","EML", "DBX", "PST", "XLS_DOC", "XLSX_DOCX"
+            , "VSD", "MDB", "WPS","WPD","EPS", "PDF","QDF", "PWL","RAR", "JSP", "JAVA,CLASS","DOCX",
+            "MF","EXE","CHM"};
+    //视频
+    private String[] videos = {"AVI", "RAM", "RM", "MPG","MOV","ASF","MP4","FLV","MID" };
+    //压缩包
+    private String[] zips = {"ZIP","JAR","CAB","GZ" ,"TAR","7Z","WAR"};
+    //音乐
+    private String[] musics = {"WAV", "MP3" };
+
     @RequestMapping
     public ModelAndView main(){
         ModelAndView modelAndView = new ModelAndView("file/index");
@@ -60,6 +68,11 @@ public class FileController {
         return modelAndView;
     }
 
+    /**
+     * 上传单个文件
+     * @param request
+     * @return
+     */
     @RequestMapping("/upload")
     @ResponseBody
     public String upload(HttpServletRequest request){
@@ -93,6 +106,11 @@ public class FileController {
         }
     }
 
+    /**
+     * 上传多个文件
+     * @param request
+     * @return
+     */
     @RequestMapping("/uploadmore")
     @ResponseBody
     public JSONResult uploadmore(HttpServletRequest request){
@@ -105,35 +123,9 @@ public class FileController {
         username = String.valueOf(authentication.getPrincipal());
         for(MultipartFile file: files){
             fileName = file.getOriginalFilename();
-            fileType = fileName.substring(fileName.lastIndexOf(".")+1);
+            fileType = fileName.substring(fileName.lastIndexOf(".")+1).trim();
             //通过fileType来决定tag的值，通过tag的值来决定fileImage
-            //图片
-            String[] pics = { "JPEG","PNG", "GIF","TIFF","BMP","DWG","PSD" };
-            //文档
-            String[] docs = {"DOC","RTF", "XML", "HTML", "CSS", "JS","EML", "DBX", "PST", "XLS_DOC", "XLSX_DOCX"
-                    , "VSD", "MDB", "WPS","WPD","EPS", "PDF","QDF", "PWL","RAR", "JSP", "JAVA,CLASS","DOCX",
-                     "MF","EXE","CHM"};
-            //视频
-            String[] videos = { "AVI", "RAM", "RM", "MPG","MOV","ASF","MP4","FLV","MID" };
-            //压缩包
-            String[] zips = {"ZIP","JAR","CAB","GZ" ,"TAR","7Z","WAR"};
-            //音乐
-            String[] musics = {"WAV", "MP3" };
-
-            if(Arrays.binarySearch(pics,fileType.toUpperCase())>0){  //若图片中存在
-                tag = 2;
-            }else if(Arrays.binarySearch(docs,fileType.toUpperCase())>0){  //若文档中存在
-                tag = 3;
-            }else if(Arrays.binarySearch(videos,fileType.toUpperCase())>0){ //若视频中存在
-                tag = 1;
-            }else if(Arrays.binarySearch(zips,fileType.toUpperCase())>0) {  //若压缩包中存在
-                tag = 4;
-            }else if(Arrays.binarySearch(musics,fileType.toUpperCase())>0){  //若音乐中存在
-                tag = 0;
-            }else{  //在其它中
-                tag = 5;
-            }
-
+            JudgeFileType();
             size = file.getSize();
             filePath = SystemPath+username+"/"+FileTagEnum.getTagName(tag).getTag()+"/"+fileName;
             File dest = new File(filePath);
@@ -152,6 +144,46 @@ public class FileController {
             }
         }
         return JSONResult.ok();
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public JSONResult delete(@RequestParam("ids")String str){
+        System.out.println("接收的信息:"+str);
+        String[] ids = str.split(",");
+        try {
+            fileService.delete(ids);
+        }catch (Exception e){
+            return JSONResult.errorMsg("删除失败");
+        }
+        return JSONResult.ok();
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public JSONResult update(){
+        return JSONResult.ok();
+    }
+
+
+    /**
+     * 判断文件类型
+     */
+    private void JudgeFileType() {
+
+        if(Arrays.asList(pics).contains(fileType.toUpperCase())){  //若图片中存在
+            tag = 2;
+        }else if(Arrays.asList(docs).contains(fileType.toUpperCase())){  //若文档中存在
+            tag = 3;
+        }else if(Arrays.asList(videos).contains(fileType.toUpperCase())){ //若视频中存在
+            tag = 1;
+        }else if(Arrays.asList(zips).contains(fileType.toUpperCase())) {  //若压缩包中存在
+            tag = 4;
+        }else if(Arrays.asList(musics).contains(fileType.toUpperCase())){  //若音乐中存在
+            tag = 0;
+        }else{  //在其它中
+            tag = 5;
+        }
     }
 
     /**

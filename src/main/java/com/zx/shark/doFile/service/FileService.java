@@ -15,11 +15,12 @@ public interface FileService {
      * 删除文件信息
      * @param id
      */
-    void delete(Long id);
+    void delete(String[] ids);
 
     /**
      * 查找所有文件信息
      * @param myFile
      */
     List<MyFile> list(MyFile myFile);
+
 }
