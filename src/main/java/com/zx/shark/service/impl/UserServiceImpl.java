@@ -77,4 +77,10 @@ public class UserServiceImpl implements UserService {
         List<User> users = userMapper.selectAll();
         return users;
     }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        userMapper.deleteById(id);
+    }
 }

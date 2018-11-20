@@ -60,7 +60,8 @@ public class ControllerLog {
         log.setClass_method(joinPoint.getSignature().getDeclaringTypeName()+'.'+ joinPoint.getSignature().getName());
         //参数
         log.setArgs(joinPoint.getArgs()==null?joinPoint.getArgs():null);
-        logger.info("执行"+log.getClass_method()+" 方法\n"+"方法类型: "+log.getMethod());
+        logger.info("执行"+log.getClass_method()+" 方法");
+        logger.info("方法类型: "+log.getMethod());
     }
 
     /**
@@ -89,7 +90,7 @@ public class ControllerLog {
         endTime = System.currentTimeMillis();
         log.setEndDate(new Date(endTime));   //结束时间
         log.setDate(endTime-startTime);  //消耗时间
-        logger.info("用时:"+log.getDate());
+        logger.info("操作用时:"+log.getDate()+"\n");
         //将内容插入mongodb
         logRepository.insert(log);
     }

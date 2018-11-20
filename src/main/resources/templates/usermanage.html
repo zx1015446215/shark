@@ -6,6 +6,12 @@
     <title>用户管理</title>
 </head>
 <body>
+<div>
+    <!--添加-->
+    <button type="button" class="btn btn-default btn-lg" onclick="add()">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </button>
+</div>
 <table class="table table-hover">
     <tr>
     <td>选择</td>
@@ -19,25 +25,66 @@
     <td>创建人</td>
     <td>修改时间</td>
     <td>修改人</td>
-    <td>详情</td>
+    <td>操作</td>
     </tr>
+
     <!--读取信息动态注入-->
-    <tr th:each="user : ${users}">
-        <td><input type="checkbox"></td>
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.username}"></td>
-        <td>****</td>
-        <td th:text="${user.phoneNo} eq null ? '空' : ${user.phoneNo}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:if="${user.type==0}">超级管理员</td>
-        <td th:if="${user.type==1}">管理员</td>
-        <td th:if="${user.type==2}">用户</td>
-        <td th:text="${user.createTime}"></td>
-        <td th:text="${user.createNo}"></td>
-        <td th:text="${user.updateTime}"></td>
-        <td th:text="${user.updateNo}"></td>
-        <td><input type="button" value="详情"></td>
-    </tr>
+    <div>
+        <tr th:each="user : ${users}" th:id="${user.id}">
+            <td><input type="checkbox"></td>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td>****</td>
+            <td th:text="${user.phoneNo} eq null ? '空' : ${user.phoneNo}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:if="${user.type==0}">超级管理员</td>
+            <td th:if="${user.type==1}">管理员</td>
+            <td th:if="${user.type==2}">用户</td>
+            <td th:text="${user.createTime}"></td>
+            <td th:text="${user.createNo}"></td>
+            <td th:text="${user.updateTime}"></td>
+            <td th:text="${user.updateNo}"></td>
+            <td>
+                <input type="button" value="修改"  th:onclick="'javascript:update('+${user.id}+')'">
+                <input type="button" value="删除"  th:onclick="'javascript:del('+${user.id}+')'">
+            </td>
+        </tr>
+    </div>
 </table>
+
 </body>
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script>
+    /*添加按钮*/
+    function add() {
+        console.log("进入add");
+    }
+
+    /*修改按钮*/
+    function update(id) {
+        console.log("进入update");
+
+    }
+    /*删除按钮*/
+    function del(id) {
+        console.log("进入del");
+        if(confirm("确认删除") == false){
+            return ;
+        }
+        $.ajax({
+            url: "http://localhost:8080/user/delete?id="+id,
+            type: "get",
+            error: function(e) {
+                console.log("error", e.statusText);
+                alert("删除失败")
+            },
+            success: function(res) {
+                location.reload()
+            },
+            complete: function(d) {
+                console.log("done");
+            }
+        });
+    }
+</script>
 </html>

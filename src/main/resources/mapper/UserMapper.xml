@@ -52,4 +52,8 @@
     from user
     where username = #{username,jdbcType=VARCHAR}
   </select>
+  <delete id="deleteById" parameterType="java.lang.Long">
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
 </mapper>

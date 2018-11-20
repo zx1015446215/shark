@@ -161,30 +161,15 @@ public class FileController {
 
     @RequestMapping("/update")
     @ResponseBody
-    public JSONResult update(){
+    public JSONResult update(@RequestParam("id")Long id,@RequestParam("fileName")String fileName){
+        System.out.println("进入update");
+        MyFile file = new MyFile();
+        file.setId(id);
+        file.setFileName(fileName);
+        fileService.updateNameById(file);
         return JSONResult.ok();
     }
 
-
-    /**
-     * 判断文件类型
-     */
-    private void JudgeFileType() {
-
-        if(Arrays.asList(pics).contains(fileType.toUpperCase())){  //若图片中存在
-            tag = 2;
-        }else if(Arrays.asList(docs).contains(fileType.toUpperCase())){  //若文档中存在
-            tag = 3;
-        }else if(Arrays.asList(videos).contains(fileType.toUpperCase())){ //若视频中存在
-            tag = 1;
-        }else if(Arrays.asList(zips).contains(fileType.toUpperCase())) {  //若压缩包中存在
-            tag = 4;
-        }else if(Arrays.asList(musics).contains(fileType.toUpperCase())){  //若音乐中存在
-            tag = 0;
-        }else{  //在其它中
-            tag = 5;
-        }
-    }
 
     /**
      * 根据id号来下载内容
@@ -203,6 +188,17 @@ public class FileController {
     }
 
 
+
+    @RequestMapping("/findFilesByObject")
+    @ResponseBody
+    public List<MyFile> find(@RequestParam(value = "tag",required = false)Integer tag){
+        MyFile myFile = new MyFile();
+        if(tag!=null){
+            myFile.setTag(tag);
+        }
+        List<MyFile> list = fileService.list(myFile);
+        return list;
+    }
 
     /**
      * 根据list和response返回文件给用户下载
@@ -246,16 +242,26 @@ public class FileController {
         }
     }
 
-    @RequestMapping("/findFilesByObject")
-    @ResponseBody
-    public List<MyFile> find(@RequestParam(value = "tag",required = false)Integer tag){
-        MyFile myFile = new MyFile();
-        if(tag!=null){
-            myFile.setTag(tag);
-        }
-        List<MyFile> list = fileService.list(myFile);
-        return list;
-    }
 
+
+    /**
+     * 判断文件类型
+     */
+    private void JudgeFileType() {
+
+        if(Arrays.asList(pics).contains(fileType.toUpperCase())){  //若图片中存在
+            tag = 2;
+        }else if(Arrays.asList(docs).contains(fileType.toUpperCase())){  //若文档中存在
+            tag = 3;
+        }else if(Arrays.asList(videos).contains(fileType.toUpperCase())){ //若视频中存在
+            tag = 1;
+        }else if(Arrays.asList(zips).contains(fileType.toUpperCase())) {  //若压缩包中存在
+            tag = 4;
+        }else if(Arrays.asList(musics).contains(fileType.toUpperCase())){  //若音乐中存在
+            tag = 0;
+        }else{  //在其它中
+            tag = 5;
+        }
+    }
 
 }

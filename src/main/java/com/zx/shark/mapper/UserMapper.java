@@ -19,4 +19,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User selectByUsername(String username);
+
+    void deleteById(Long id);
 }

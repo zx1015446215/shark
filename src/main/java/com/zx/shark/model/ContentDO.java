@@ -48,7 +48,7 @@ public class ContentDO implements Serializable {
         this.gtm_modified = gtm_modified;
     }
 
-    public ContentDO(Long cid, String title, Long created, Long modified, String content, String tags, String categories, Integer comments_num, Integer status, String author, Timestamp gtm_create, Timestamp gtm_modified) {
+    public ContentDO(Long cid, String title, Long created, Long modified, String content, String tags, String categories, Integer comments_num, Integer status,Integer likes_count, String author, Timestamp gtm_create, Timestamp gtm_modified) {
         this.cid = cid;
         this.title = title;
         this.created = created;
@@ -58,6 +58,7 @@ public class ContentDO implements Serializable {
         this.categories = categories;
         this.comments_num = comments_num;
         this.status = status;
+        this.likes_count = likes_count;
         this.author = author;
         this.gtm_create = gtm_create;
         this.gtm_modified = gtm_modified;

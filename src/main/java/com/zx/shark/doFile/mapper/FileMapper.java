@@ -11,4 +11,5 @@ public interface FileMapper {
     void delete(String[] ids);
     List<MyFile> find(MyFile myFile);
     List<MyFile> findByIds(String[] ids);
+    void updateNameById(MyFile myFile);
 }

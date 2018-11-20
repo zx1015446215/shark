@@ -23,4 +23,5 @@ public interface FileService {
      */
     List<MyFile> list(MyFile myFile);
 
+    void updateNameById(MyFile myFile);
 }

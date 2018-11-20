@@ -137,8 +137,8 @@
                 <div th:each="file : ${files}" th:class="${file.tag} gt 6 ? 'box template' : 'box2 template'" data-show="no">
                     <img th:src="${file.fileImage}" th:id="${file.id}" class="icon" alt="">
                     <div>
-                        <p th:text="${file.fileName}"></p>
-                        <input type="text" class="none">
+                        <p class="p" th:text="${file.fileName}"></p>
+                        <!--<input id="${file.id}" type="text" class="none">-->
                     </div>
                     <img src="/images/file/select.png" class="select" alt="">
                 </div>
@@ -313,6 +313,55 @@
     /*移动点击操作*/
     $(".yidong").click(function(){
         $(".moveBox").show();
+    });
+    /*下载点击操作*/
+    $(".xiazai").click(function(){
+        var arr = [];
+        $('.icon').each(function () {
+            if ($(this).parent().attr('data-show') === 'yes') {
+                arr.push($(this).attr('id'));
+            }
+        });
+        if(confirm("确认下载")){
+            
+        }
+    });
+    /*重命名点击操作*/
+    $(".chong").click(function(){
+        //获取选中的内容的id
+        var arr = [];
+        $('.icon').each(function () {
+            if ($(this).parent().attr('data-show') === 'yes') {
+                arr.push($(this).attr('id'));
+            }
+        });
+        if(arr.length > 1){
+            alert("一次只能修改一个文件");
+        }else if(arr.length<=0||arr === null){
+            alert("请选择要修改的文件");
+        }else{
+          console.log("进行修改");
+
+          $.ajax({
+              url: "http://localhost:8080/file/update",
+              type: "POST",
+              datatype: "json",
+              data: {
+                  id : arr.toString(),
+                  fileName : "test.jpg"
+              },
+              error: function(e) {
+                  console.log("error", e.statusText);
+                  alert("重命名失败")
+              },
+              success: function(res) {
+                  location.reload()
+              },
+              complete: function(d) {
+                  console.log("done");
+              }
+          });
+        }
     });
     /*删除点击操作*/
     $(".shanchu").click(function(){

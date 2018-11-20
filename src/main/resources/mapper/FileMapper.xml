@@ -89,19 +89,14 @@
 		</foreach>
 	</delete>
 
-	<update id="update">
+	<update id="updateNameById">
 		update file
 		<set>
 			<if test="parentId != null and parentId != ''"> parent_id = #{parentId}, </if>
-			<if test="username != null and username != ''"> username = #{username}, </if>
 			<if test="fileName != null and fileName != ''"> file_name = #{fileName}, </if>
-			<if test="fileType != null and fileType != ''"> file_type = #{fileType} ,</if>
-			<if test="tag != null and tag != ''"> tag = #{tag}, </if>
-			<if test="size != null and size != ''"> size = #{size}, </if>
 			<if test="filePath != null and filePath != ''"> file_path = #{filePath}, </if>
-			<if test="createTime != null and createTime != ''"> create_time = #{createTime} ,</if>
-			<if test="fileImage != null and fileImage != ''"> file_image = #{fileImage} </if>
 		</set>
+		where id = #{id}
 	</update>
 
 
