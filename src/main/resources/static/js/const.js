@@ -1,5 +1,5 @@
-const uu = "http://localhost:8080";
-// const uu = "http://www.zhxshark.com";
+// const uu = "http://localhost:8080";
+const uu = "http://www.zhxshark.com";
 const loginUrl =  uu+"/index/login";   //登录
 const RegisterUrl = uu+"/register";    //注册
 const SendCodeUrl = uu+"/sendCode";    //发送验证码

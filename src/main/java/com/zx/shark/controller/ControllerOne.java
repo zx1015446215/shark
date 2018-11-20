@@ -1,6 +1,7 @@
 package com.zx.shark.controller;
 
 import com.zx.shark.model.User;
+import com.zx.shark.service.MailService;
 import com.zx.shark.service.impl.UserServiceImpl;
 import com.zx.shark.utils.JSONResult;
 import com.zx.shark.utils.SendEmail;
@@ -35,6 +36,8 @@ public class ControllerOne {
     UserServiceImpl userServiceImpl;
     @Autowired
     RedisTemplate redisTemplate;
+    @Autowired
+    MailService mailService;
     @RequestMapping("")
     public String main(){
         return  "index/index";
@@ -79,16 +82,11 @@ public class ControllerOne {
 
     @RequestMapping(value = "/sendCode",method = RequestMethod.POST)
     @ResponseBody
-    public String sendCode(@RequestParam("email")String email) throws UnsupportedEncodingException, MessagingException {
-        System.out.println("email:" +email);
-        SendEmail sendEmail = new SendEmail("zx1015446215@163.com","zzzx19961026");
-        sendEmail.setQqDefaultProperties();
-        sendEmail.initMessage();
+    public String sendCode(@RequestParam("email")String to) throws UnsupportedEncodingException, MessagingException {
         Random random = new Random();
         String str = getUUID();
         String code = str.substring(0,4);
-        sendEmail.setDefaultMessagePros("验证码","感谢来到zx的博客,您的验证码是:"+code,email,"zx博客");
-        sendEmail.sendMessage();
+        mailService.sendSimpleMail(to,"zhxshark博客","感谢来到zx的博客,您的验证码是:"+code);
         System.out.println("发送成功"+code);
         return code;
     }

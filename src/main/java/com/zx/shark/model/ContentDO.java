@@ -79,6 +79,13 @@ public class ContentDO implements Serializable {
         this.cid = cid;
         this.likes_count = likes_count;
     }
+    public ContentDO(String title, String author, String categories, String content){
+        this.title = title;
+        this.author = author;
+        this.categories = categories;
+        this.content =content;
+
+    }
 
     public Integer getLikes_count() {
         return likes_count;
