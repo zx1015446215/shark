@@ -74,7 +74,7 @@ public class LoginController {
         String email = (String) userMessage.get("email");
         Timestamp createTime = (Timestamp) userMessage.get("created_at");
         Timestamp updateTime = (Timestamp) userMessage.get("updated_at");
-        userService.registerUser(new User(id,username,"0000",email,null,createTime,id,updateTime,id));
+        userService.registerUser(new User(id,username,"0000",email,null,null,createTime,id,updateTime,id));
 
         SecurityContext securityContext = new SecurityContext() {
             @Override

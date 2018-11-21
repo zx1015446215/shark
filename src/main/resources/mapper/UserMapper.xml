@@ -7,6 +7,7 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="phone_no" jdbcType="VARCHAR" property="phoneNo"/>
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     <result column="create_no" jdbcType="BIGINT" property="createNo"/>
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
@@ -18,37 +19,39 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.zx.shark.model.User">
-    insert into user (id, username, password , email, phone_no, create_time, create_no, update_time, update_no
+    insert into user (id, username, password , email, phone_no, image_path, create_time, create_no, update_time, update_no
       )
     values (#{id}, #{username}, #{password}, #{email},
-           #{phoneNo}, #{createTime},#{createNo},#{updateTime},#{updateNo}
+           #{phoneNo},#{imagePath}, #{createTime},#{createNo},#{updateTime},#{updateNo}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zx.shark.model.User">
     update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      phoneNo = #{phoneNo,jdbcType=VARCHAR},
-      createTime = #{createTime,jdbcType=TIMESTAMP},
-      createNo = #{createNo,jdbcType=BIGINT},
-      updateTime = #{updateTime,jdbcType=TIMESTAMP},
-      updateNo = #{updateNo,jdbcType=BIGINT}
+    <set>
+      <if test="username != null and username != ''"> username = #{username}, </if>
+      <if test="password != null and password != ''"> password = #{password}, </if>
+      <if test="email != null and email != ''"> email = #{email}, </if>
+      <if test="phoneNo != null and phoneNo != ''"> phone_no = #{phoneNo}, </if>
+      <if test="createTime != null and createTime != ''"> create_time = #{createTime}, </if>
+      <if test="createNo != null and createNo != ''"> create_no = #{createNo}, </if>
+      <if test="updateTime != null and updateTime != ''"> update_time = #{updateTime}, </if>
+      <if test="updateNo != null and updateNo != ''"> update_no = #{updateNo}, </if>
+    </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="com.zx.shark.model.User">
-    select id, username, password , email, phone_no, create_time, create_no, update_time, update_no
+    select id, username, password , email, phone_no, image_path, create_time, create_no, update_time, update_no
     from user
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, username, password , email, phone_no, create_time, create_no, update_time, update_no, user_roles.roles_id
+    select id, username, password , email, phone_no, image_path, create_time, create_no, update_time, update_no, user_roles.roles_id
     from user
     LEFT JOIN user_roles
     on user.id = user_roles.user_id
   </select>
   <select id="selectByUsername" parameterType="java.lang.String" resultType="com.zx.shark.model.User">
-    select id, username, password , email, phone_no, create_time, create_no, update_time, update_no
+    select id, username, password , email, phone_no, image_path, create_time, create_no, update_time, update_no
     from user
     where username = #{username,jdbcType=VARCHAR}
   </select>

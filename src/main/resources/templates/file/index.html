@@ -22,7 +22,7 @@
             <a href="">联系我们</a>
         </div>
         <div class="userNumber y">
-            你好,<span></span>
+            你好<span></span>
         </div>
     </div>
 
@@ -323,7 +323,16 @@
             }
         });
         if(confirm("确认下载")){
-            
+            // window.open("http://localhost:8080/file/download?ids="+arr.toString(), '_blank');
+            var url = "http://localhost:8080/file/download?id=";
+            console.log(arr.toString());
+            for(var i=0;i<arr.length;i++) {
+                var iframe = document.createElement("iframe");
+                iframe.style.display = "none"; // 防止影响页面
+                iframe.style.height = 0; // 防止影响页面
+                iframe.src = url+arr[i];
+                document.body.appendChild(iframe); // 这一行必须，iframe挂在到dom树上才会发请求
+            }
         }
     });
     /*重命名点击操作*/

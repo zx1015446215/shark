@@ -64,7 +64,7 @@ public class ControllerOne {
         Long user_id=Long.valueOf(new SimpleDateFormat("ssSSS").format(new Date()).toString());
         Timestamp createTime = new Timestamp(new Date().getTime());
         Timestamp updateTime = createTime;
-        User user=new User(user_id,username,pass,email,null,createTime,user_id,updateTime,user_id);
+        User user=new User(user_id,username,pass,email,null,"/img/touxiang.jpg",createTime,user_id,updateTime,user_id);
         //用户信息和权限信息关联
         try {
             userServiceImpl.registerUser(user);
@@ -72,10 +72,6 @@ public class ControllerOne {
             logger.info("错误信息: "+e);
             return JSONResult.errorMsg("110");
         }
-        ValueOperations<String,User> operations=redisTemplate.opsForValue();
-        operations.set(user.getUsername(),user,30, TimeUnit.SECONDS);
-        logger.info("用户插入缓存 >> " +"id: "+ user.getId()+", username: "+user.getUsername()+",password: "+user.getPassword());
-        logger.info("注册成功");
         return JSONResult.ok();
     }
 

@@ -3,7 +3,7 @@ server:
     remote-ip-header: x-forwarded-for
     protocol-header: x-forwarded-proto
     port-header: X-Forwarded-Port
-  port: 80
+  port: 8080
   use-forward-headers: true
   compression:
     enabled: true
@@ -12,7 +12,7 @@ server:
 spring:
   datasource:
       username: root
-      password: 123456
+      password:
       driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://localhost:3306/zxblog?useUnicode=true&characterEncoding=UTF-8
   thymeleaf:
@@ -67,7 +67,8 @@ github:
     userInfoUri: https://api.github.com/user
 
 file:
-  absolute-location: /home/admin/
+#  absolute-location: /home/admin/
+   absolute-location: C:/Users/zhuin/Desktop/file/
 multipart:
    maxFileSize: 100Mb
    maxRequestSize: 150Mb

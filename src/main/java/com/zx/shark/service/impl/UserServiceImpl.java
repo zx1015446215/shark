@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
         try {
             userMapper.insert(user);
         }catch (Exception e){
+            System.out.println("错误:"+e.getMessage());
             System.out.println("已存在用户:"+user.getId());
             return ;
         }

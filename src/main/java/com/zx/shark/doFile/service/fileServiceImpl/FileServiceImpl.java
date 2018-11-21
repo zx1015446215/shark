@@ -29,7 +29,7 @@ public class FileServiceImpl implements FileService {
     @Transactional
     public void delete(String[] ids) {
         //从硬盘中删除
-        List<MyFile> files = fileMapper.findByIds(ids);
+        List<MyFile> files = findByIds(ids);
         for(MyFile mf : files){
             File file = new File(mf.getFilePath());
             if(file.exists()&&file.delete()){ } //若文件存在则删除文件
@@ -60,6 +60,11 @@ public class FileServiceImpl implements FileService {
         f.renameTo(new File(file.getFilePath()));
         //数据库中修改文件名和路径
         fileMapper.updateNameById(file);
+    }
+
+    @Override
+    public List<MyFile> findByIds(String[] ids) {
+        return fileMapper.findByIds(ids);
     }
 
 }

@@ -46,7 +46,7 @@ public class FileController {
     //文档
     private String[] docs = {"DOC","RTF", "XML", "HTML", "CSS", "JS","EML", "DBX", "PST", "XLS_DOC", "XLSX_DOCX"
             , "VSD", "MDB", "WPS","WPD","EPS", "PDF","QDF", "PWL","RAR", "JSP", "JAVA,CLASS","DOCX",
-            "MF","EXE","CHM"};
+            "MF","CHM"};
     //视频
     private String[] videos = {"AVI", "RAM", "RM", "MPG","MOV","ASF","MP4","FLV","MID" };
     //压缩包
@@ -179,12 +179,11 @@ public class FileController {
     @RequestMapping("/download")
     public void fileDownload(HttpServletResponse response, @RequestParam(value = "id",required = false)Long id){
         System.out.println("进入download");
-        MyFile myFile = new MyFile();
-        if(id!=null) {  //如果存在参数添加
-            myFile.setId(id);
-        }
-        List<MyFile> list=fileService.list(myFile);
-        DownloadFiles(response, list);
+        MyFile file = new MyFile();
+        file.setId(id);
+        List<MyFile> list = fileService.list(file);
+        if(list.size()<1){return;}
+        DownloadFile(response,list.get(0));
     }
 
 
@@ -199,19 +198,9 @@ public class FileController {
         List<MyFile> list = fileService.list(myFile);
         return list;
     }
-
-    /**
-     * 根据list和response返回文件给用户下载
-     * @param response
-     * @param list
-     */
-    private void DownloadFiles(HttpServletResponse response, List<MyFile> list) {
-        response.setHeader("content-type", "application/octet-stream");
-        response.setContentType("application/octet-stream");
-        if(list.isEmpty()){  //判断是否查询成功
-            return;
-        }
-        for (MyFile myFile : list){
+    private void DownloadFile(HttpServletResponse response, MyFile myFile) {
+            response.setHeader("content-type", "application/octet-stream");
+            response.setContentType("application/octet-stream");
             File file = new File(myFile.getFilePath());
             if(file.exists()) {
                 response.setHeader("Content-Disposition", "attachment;filename=" + myFile.getFileName());  //3.设置content-disposition响应头控制浏览器以下载的形式打开文件
@@ -238,7 +227,6 @@ public class FileController {
                         }
                     }
                 }
-            }
         }
     }
 

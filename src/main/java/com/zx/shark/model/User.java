@@ -24,6 +24,7 @@ public class User implements UserDetails,Serializable {
     private String password;
     private String email;
     private String phoneNo;
+    private String imagePath;
     private Timestamp createTime;
     private long createNo;
     private Timestamp updateTime;
@@ -35,12 +36,13 @@ public class User implements UserDetails,Serializable {
     public User() {
     }
 
-    public User(long id, String username, String password, String email, String phoneNo, Timestamp createTime, long createNo, Timestamp updateTime, long updateNo) {
+    public User(long id, String username, String password, String email, String phoneNo,String imagePath, Timestamp createTime, long createNo, Timestamp updateTime, long updateNo) {
         this.id=id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.phoneNo = phoneNo;
+        this.imagePath = imagePath;
         this.createTime = createTime;
         this.createNo = createNo;
         this.updateTime = updateTime;
@@ -179,5 +181,13 @@ public class User implements UserDetails,Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

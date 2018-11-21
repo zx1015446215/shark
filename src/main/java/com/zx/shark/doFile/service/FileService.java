@@ -24,4 +24,6 @@ public interface FileService {
     List<MyFile> list(MyFile myFile);
 
     void updateNameById(MyFile myFile);
+
+    List<MyFile> findByIds(String[] ids);
 }
