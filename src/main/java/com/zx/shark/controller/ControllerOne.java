@@ -83,6 +83,7 @@ public class ControllerOne {
         String str = getUUID();
         String code = str.substring(0,4);
         mailService.sendSimpleMail(to,"zhxshark博客","感谢来到zx的博客,您的验证码是:"+code);
+//        mailService.sendAttachmentsMail(to,"zhxshark博客","测试附件","C:/Users/zx/Desktop/file/zhuxin/图片/github.png");
         System.out.println("发送成功"+code);
         return code;
     }

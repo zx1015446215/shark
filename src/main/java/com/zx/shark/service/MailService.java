@@ -18,4 +18,14 @@ public interface MailService {
      * @param content
      */
     public void sendHtmlMail(String to,String subject,String content) throws MessagingException;
+
+
+    /**
+     * 发送带附件的文本
+     * @param to
+     * @param subject
+     * @param content
+     * @param filePath
+     */
+    public void sendAttachmentsMail(String to,String subject,String content,String filePath) throws MessagingException;
 }

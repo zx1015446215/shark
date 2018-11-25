@@ -68,7 +68,7 @@ github:
 
 file:
 #  absolute-location: /home/admin/
-   absolute-location: C:/Users/zhuin/Desktop/file/
+   absolute-location: C:/Users/zx/Desktop/file/
 multipart:
    maxFileSize: 100Mb
    maxRequestSize: 150Mb
