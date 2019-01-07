@@ -1,0 +1,56 @@
+
+server:
+  port: 8080
+spring:
+  profiles:
+      active: dev
+  datasource:
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/zxblog?useUnicode=true&characterEncoding=UTF-8
+  redis:
+    port: 6379
+    database: 0   #通常Redis默认使用0号数据库，默认共有16个数据库
+    password:
+    host: 127.0.0.1
+    jedis:
+      pool:
+         max-active: 8   #最大连接数
+         max-wait: -1    #最大阻塞等待时间（负值表示没有限制）
+         min-idle: 0    #最大空闲连接
+         max-idle: 8    #最大空闲连接
+      timeout: 0
+#      邮箱配置
+  mail:
+    host: smtp.163.com
+    username: zx1015446215@163.com
+    password: zx101544
+    default-encoding: UTF-8
+
+
+
+#  data:
+#    mongodb:
+#      host: localhost
+#      uri: mongodb://localhost:27010/zxlog
+#      port: 27010
+
+
+github:
+  client:
+    clientId: 71569962aff4670e996a
+    clientSecret: d21bf1e4a35a081703ee991fe7331b62d943b0a6
+    accessTokenUri: https://github.com/login/oauth/access_token
+    userAuthorizationUri: https://github.com/login/oauth/authorize
+    clientAuthenticationScheme: form
+    callback: http://www.zhxshark.com/login/github/callback
+    registered-redirect-uri: http://www.zhxshark.com/login/github/callback
+    use-current-uri: false
+    grant_type: authorization_code
+  resource:
+    userInfoUri: https://api.github.com/user
+
+file:
+#  absolute-location: /home/admin/
+   absolute-location: C:/Users/zx/Desktop/file/

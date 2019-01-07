@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>邮件模板</title>
+</head>
+<body>
+    你好,感谢您的注册，这是一封验证邮件，请点击下面连接完成激活
+    <a href="#" th:href="@{www.zhxshark.com/register/{id}(id=${id})}">激活账户</a>
+</body>
+</html>

@@ -28,4 +28,14 @@ public interface MailService {
      * @param filePath
      */
     public void sendAttachmentsMail(String to,String subject,String content,String filePath) throws MessagingException;
+
+    /**
+     * 图片邮件
+     * @param to
+     * @param subject
+     * @param content
+     * @param rscPath  路径
+     * @param rscId   图片的id
+     */
+    public void sendInlinResourceMail(String to,String subject,String content,String rscPath,String rscId) throws MessagingException;
 }
