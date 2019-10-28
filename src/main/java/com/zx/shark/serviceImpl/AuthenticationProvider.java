@@ -37,6 +37,7 @@ public class AuthenticationProvider implements org.springframework.security.auth
             throw  new UsernameNotFoundException("username is wrong");
         }
 
+
         System.out.println(user.getPassword());
         if(DigestUtils.md5DigestAsHex(password.getBytes()).equals(user.getPassword())){
             List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
